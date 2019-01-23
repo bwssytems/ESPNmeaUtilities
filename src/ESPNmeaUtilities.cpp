@@ -3,7 +3,7 @@ Utilities for NMEA networks that are for ESP/Arduino chips
 *********/
 #include <ESPNmeaUtilities.h>
 
-static String ESPNmeaUtilities::createBilgeNmea0183Sentence(ActivationCounter* Counter)
+String ESPNmeaUtilities::createBilgeNmea0183Sentence(ActivationCounter* counter)
 {
     String nmeaSentence;
     nmeaSentence = "$IIXDR";
@@ -19,7 +19,7 @@ static String ESPNmeaUtilities::createBilgeNmea0183Sentence(ActivationCounter* C
     return nmeaSentence;
 }
 
-static String ESPNmeaUtilities::createVoltageNmea0183Sentence(VoltsandAmpsAdc1* voltMonitor)
+String ESPNmeaUtilities::createVoltageNmea0183Sentence(VoltsandAmpsAdc1* voltMonitor)
 {
     String nmeaSentence;
         nmeaSentence = "$IIXDR";
@@ -31,7 +31,7 @@ static String ESPNmeaUtilities::createVoltageNmea0183Sentence(VoltsandAmpsAdc1* 
     return nmeaSentence;
 }
 
-static int ESPNmeaUtilities::_calc_NMEA_Checksum(char *buf, int cnt)
+int ESPNmeaUtilities::_calc_NMEA_Checksum(char *buf, int cnt)
 {
   char Character;
   int Checksum = 0;
