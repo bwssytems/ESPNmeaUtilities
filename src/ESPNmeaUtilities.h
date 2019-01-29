@@ -19,7 +19,9 @@ Utilities for NMEA networks that are for ESP/Arduino chips
 class ESPNmeaUtilities
 {
 public:
-  static String createBilgeNmea0183Sentence(ActivationCounter* bilge);
+  static String createBilgeNmea0183SentenceBasic(ActivationCounter* bilge);
+  static String createBilgeNmea0183SentenceTime(ActivationCounter* bilge);
+  static String createBilgeNmea0183SentenceLongest(ActivationCounter* bilge);
   static String createVoltageNmea0183Sentence(VoltsandAmpsAdc1* voltMonitor);
 
 private:

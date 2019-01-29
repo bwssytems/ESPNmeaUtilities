@@ -3,16 +3,36 @@ Utilities for NMEA networks that are for ESP/Arduino chips
 *********/
 #include <ESPNmeaUtilities.h>
 
-String ESPNmeaUtilities::createBilgeNmea0183Sentence(ActivationCounter* counter)
+String ESPNmeaUtilities::createBilgeNmea0183SentenceBasic(ActivationCounter* counter)
 {
     String nmeaSentence;
     nmeaSentence = "$IIXDR";
     nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getCycleCounter() + ",CYCLE," + counter->getName());
     nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getDuration() + ",TOTDUR," + counter->getName());
+    int checkSum = ESPNmeaUtilities::_calc_NMEA_Checksum(const_cast<char *>(nmeaSentence.c_str()), nmeaSentence.length());
+    nmeaSentence = String(nmeaSentence + "*" + String(checkSum, HEX) + "\r\n");
+
+    return nmeaSentence;
+}
+
+String ESPNmeaUtilities::createBilgeNmea0183SentenceTime(ActivationCounter* counter)
+{
+    String nmeaSentence;
+    nmeaSentence = "$IIXDR";
     nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getLastDuration() + ",LASTDUR," + counter->getName());
-    nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getLastTime() + ",LASTTIME," + counter->getName());
+    nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getLastTimeInSecs() + ",LASTTIME," + counter->getName());
+    int checkSum = ESPNmeaUtilities::_calc_NMEA_Checksum(const_cast<char *>(nmeaSentence.c_str()), nmeaSentence.length());
+    nmeaSentence = String(nmeaSentence + "*" + String(checkSum, HEX) + "\r\n");
+
+    return nmeaSentence;
+}
+
+String ESPNmeaUtilities::createBilgeNmea0183SentenceLongest(ActivationCounter* counter)
+{
+    String nmeaSentence;
+    nmeaSentence = "$IIXDR";
     nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getLongestDuration() + ",LONGDUR," + counter->getName());
-    nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getLongestTime() + ",LONGTIME," + counter->getName());
+    nmeaSentence = String(nmeaSentence + ",PUMP," + counter->getLongestTimeInSecs() + ",LONGTIME," + counter->getName());
     int checkSum = ESPNmeaUtilities::_calc_NMEA_Checksum(const_cast<char *>(nmeaSentence.c_str()), nmeaSentence.length());
     nmeaSentence = String(nmeaSentence + "*" + String(checkSum, HEX) + "\r\n");
 
